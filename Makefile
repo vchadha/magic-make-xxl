@@ -1,13 +1,22 @@
+# --------------------------------------------------------------
+# Output settings
+# --------------------------------------------------------------
 QUIET := @
 ECHO := @echo
 ifneq ($(QUIET),@)
 ECHO := @true
 endif
 
+# --------------------------------------------------------------
+# Compiler settings
+# --------------------------------------------------------------
 CPP = g++ -std=c++11
 C_FLAGS = -g -MP -MD -Wall
 C_FLAGS += -Wextra -Wwrite-strings -Wno-parentheses
 
+# --------------------------------------------------------------
+# Directories
+# --------------------------------------------------------------
 SDIR = ./src
 BDIR = ./build
 IDIR = ./include
@@ -17,22 +26,41 @@ TDIR = ./test
 TEST_BDIR = $(BDIR)/test
 TEST_IDIR = $(IDIR)/test
 
+# --------------------------------------------------------------
+# Executables
+# --------------------------------------------------------------
 EXEC = runner
 TARGET = ./bin/$(EXEC)
 TESTER = ./bin/tester
 
+# --------------------------------------------------------------
+# Includes
+# --------------------------------------------------------------
 INC = $(patsubst %,-I%,$(IDIR))
 TEST_INC = $(INC) $(patsubst %,-I%,$(TEST_IDIR))
+
+# --------------------------------------------------------------
+# Source extension
+# --------------------------------------------------------------
 SRCEXT = cpp
 
+# --------------------------------------------------------------
+# Sources, Objects, and Libraries
+# --------------------------------------------------------------
 SOURCES = $(shell find $(SDIR) -type f -name *.$(SRCEXT))
 OBJ = $(patsubst $(SDIR)/%,$(BDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 TEST_SOURCES = $(shell find $(TDIR) -type f -name *.$(SRCEXT))
 TEST_OBJ = $(patsubst $(TDIR)/%,$(TEST_BDIR)/%,$(TEST_SOURCES:.$(SRCEXT)=.o)) $(filter-out $(BDIR)/main.o, $(OBJ))
 LIBS = 
 
+# --------------------------------------------------------------
+# Archieve name for tar and zip
+# --------------------------------------------------------------
 ARCHIVE_NAME = $(EXEC)-$(shell date '+%F')
 
+# --------------------------------------------------------------
+# Make settings
+# --------------------------------------------------------------
 .SUFFIXES:
 .DELETE_ON_ERROR:
 
