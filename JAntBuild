@@ -1,0 +1,38 @@
+<project name="project_name" default="dist" basedir=".">
+    <description>
+        Build script to use for Java projects
+    </description>
+
+    <property name="version">0.1.0</property>
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+    <property name="javadoc" location="javadoc"/>
+    <property name="dist" location="dist">
+    <property name="file.jar">${dist}/${name}-${version}.jar</property>
+
+    <target name="clean">
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${build}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <echo>Compiling</echo>
+        <javac srcdir="${src}" destdir="${build}"/>
+    </target>
+
+    <target name="dist" depends="compile">
+        <echo>Generating Distribution</echo>
+        <mkdir dir="${dist}/lib">
+        <jar basedir="${build}" file="${file.jar}"/>
+    </target>
+
+    <target name="javadoc">
+        <echo>Generating Docs</echo>
+        <javadoc sourcepath="${src}" destdir="${javadoc}"></javadoc>
+    </target>
+</project>
